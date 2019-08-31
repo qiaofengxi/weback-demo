@@ -6,7 +6,6 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const {CleanWebpackPlugin} = require("clean-webpack-plugin");
-const HtmlWebpackExternalsPlugin = require("html-webpack-externals-plugin");
 
 
 const setMPA = () => {
@@ -27,7 +26,7 @@ const setMPA = () => {
             htmlWebpackPlugins.push(new HtmlWebpackPlugin({
                 template: path.join(entryFile, `../${pageName}.html`),
                 filename: `${pageName}.html`,
-                chunks: [`${pageName}`],
+                chunks: [`${pageName}`, "vendors"],
                 inject: true,
                 minify: {
                     html5: true,
@@ -130,19 +129,17 @@ module.exports = {
             cssProcessor: require("cssnano")
         }),
         new CleanWebpackPlugin(),
-        new HtmlWebpackExternalsPlugin({
-            externals: [
-                {
-                    module: 'react',
-                    entry: 'https://cdnjs.cloudflare.com/ajax/libs/react/16.9.0/umd/react.production.min.js',
-                    global: 'React',
-                }, {
-                    module: 'react-dom',
-                    entry: 'https://cdnjs.cloudflare.com/ajax/libs/react-dom/16.8.6/umd/react-dom.production.min.js',
-                    global: 'ReactDOM',
-                }
-            ]
-        }),
         ...htmlWebpackPlugins
-    ]
+    ],
+    optimization: {
+        splitChunks: {
+            cacheGroups: {
+                commons: {
+                    test: /(react|react-dom)/,
+                    name: "vendors",
+                    chunks: "all"
+                }
+            }
+        }
+    }
 };
