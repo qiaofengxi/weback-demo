@@ -1,0 +1,30 @@
+{
+  "code": 0,
+  "error": "",
+  "message": "",
+  "data": {
+    "total": 3,
+    "page": 1,
+    "page_size": 30,
+    "list": [
+      {
+        "count": 14,
+        "attr": {
+          "_category": "分类1"
+        }
+      },
+      {
+        "count": 27,
+        "attr": {
+          "_category": null
+        }
+      },
+      {
+        "count": 1,
+        "attr": {
+          "_category": "基础系统"
+        }
+      }
+    ]
+  }
+}

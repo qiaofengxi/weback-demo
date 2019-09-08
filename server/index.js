@@ -9,7 +9,12 @@ const SSR = require("../dist/search-server");
 
 const template = fs.readFileSync(path.join(__dirname, "../dist/search.html"), "utf-8");
 
-const renderMarkup = (content) => template.replace("<!--HTML_PLACEHOLDER-->", content);
+const renderMarkup = (content) => {
+  const data = require("./data");
+
+  return template.replace("<!--HTML_PLACEHOLDER-->", content)
+    .replace("<!--INITIAL_DATA_PLACEHOLDER-->", JSON.stringify(data, null, 2));
+};
 
 const server = (port) => {
   const app = express();
