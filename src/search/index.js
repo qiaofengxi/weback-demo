@@ -1,36 +1,41 @@
-import React from "react";
-import ReactDom from "react-dom";
-import "./search.less";
-import logo from "./imags/timg.jpeg";
+import React from 'react';
+import ReactDom from 'react-dom';
+import './search.less';
+import simpleAddLibrary from "simple-add-library";
+import logo from './imags/timg.jpeg';
 
-class Index extends React.Component{
-    constructor() {
-        super(...arguments);
+class Index extends React.Component {
+  constructor() {
+    super(...arguments);
 
-        this.state = {
-            text: ""
-        }
-    }
+    this.state = {
+      text: '',
+    };
+  }
 
-    loadComponent() {
-        import("./text.js").then((text) => {
-            this.setState({
-                text: text.default
-            })
-        })
-    }
+  loadComponent() {
+        import('./text.js').then((text) => {
+          this.setState({
+            text: text.default,
+          });
+        });
+  }
 
- render() {
-        const { text } = this.state;
-     return (
-         <div className="search-text">
-             {text || ""}
+  render() {
+    const { text } = this.state;
+    return (
+      <div className="search-text">
+        {text || ''}
              搜索文字内容
-             <img src={logo} onClick={this.loadComponent.bind(this)} />
-         </div>
-     )
- }
+        <img src={logo} onClick={this.loadComponent.bind(this)} alt="" />
+        <div>
+          999 + 1 =
+          {simpleAddLibrary("999", "1")}
+        </div>
+      </div>
+    );
+  }
 }
 
 
-ReactDom.render(<Index/>, document.getElementById("root"));
+ReactDom.render(<Index />, document.getElementById('root'));
