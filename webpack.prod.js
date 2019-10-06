@@ -7,7 +7,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 
-const { BundleAnalyzerPlugin }= require('webpack-bundle-analyzer');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+const TerserPlugin = require('terser-webpack-plugin');
 
 
 const setMPA = () => {
@@ -62,6 +63,12 @@ module.exports = {
       {
         test: /\.js$/,
         use: [
+          {
+            loader: 'thread-loader',
+            options: {
+              workers: 3,
+            },
+          },
           "babel-loader",
           "eslint-loader",
         ],
@@ -139,6 +146,11 @@ module.exports = {
     new BundleAnalyzerPlugin(),
   ],
   optimization: {
+    minimizer: [
+      new TerserPlugin({
+        parallel: true,
+      }),
+    ],
     splitChunks: {
       cacheGroups: {
         commons: {
