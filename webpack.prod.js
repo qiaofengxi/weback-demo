@@ -7,6 +7,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 
+const { BundleAnalyzerPlugin }= require('webpack-bundle-analyzer');
+
+
 const setMPA = () => {
   const entry = {};
 
@@ -133,6 +136,7 @@ module.exports = {
     new CleanWebpackPlugin(),
     ...htmlWebpackPlugins,
     new FriendlyErrorsWebpackPlugin(),
+    new BundleAnalyzerPlugin(),
   ],
   optimization: {
     splitChunks: {
