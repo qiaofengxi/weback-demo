@@ -9,7 +9,11 @@ const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const webpack = require("webpack");
 const TerserPlugin = require('terser-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+const PurgecssPlugin = require('purgecss-webpack-plugin')
 
+const PATHS = {
+  src: path.join(__dirname, 'src'),
+}
 
 const setMPA = () => {
   const entry = {};
@@ -154,6 +158,9 @@ module.exports = {
       manifest: require("./build/library/library.json"),
     }),
     new HardSourceWebpackPlugin(),
+    new PurgecssPlugin({
+      paths: glob.sync(`${PATHS.src}/**/*`, { nodir: true }),
+    }),
   ],
   optimization: {
     minimizer: [
