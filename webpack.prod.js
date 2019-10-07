@@ -62,6 +62,7 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
+        include: path.resolve("src"),
         use: [
           {
             loader: 'thread-loader',
@@ -161,5 +162,13 @@ module.exports = {
         cache: true,
       }),
     ],
+  },
+  resolve: {
+    alias: {
+      react: path.resolve(__dirname, "./node_modules/react/umd/react.production.min.js"),
+      "react-dom": path.resolve(__dirname, "./node_modules/react-dom/umd/react-dom.production.min.js"),
+    },
+    extensions: [".js"],
+    mainFields: ["main"],
   },
 };
