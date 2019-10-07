@@ -8,6 +8,7 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
 const webpack = require("webpack");
 const TerserPlugin = require('terser-webpack-plugin');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 
 
 const setMPA = () => {
@@ -68,7 +69,13 @@ module.exports = {
               workers: 3,
             },
           },
-          "babel-loader",
+          {
+            loader: "babel-loader",
+            options: {
+              cacheDirectory: true,
+            },
+          },
+
           "eslint-loader",
         ],
       },
@@ -145,11 +152,13 @@ module.exports = {
     new webpack.DllReferencePlugin({
       manifest: require("./build/library/library.json"),
     }),
+    new HardSourceWebpackPlugin(),
   ],
   optimization: {
     minimizer: [
       new TerserPlugin({
         parallel: true,
+        cache: true,
       }),
     ],
   },
