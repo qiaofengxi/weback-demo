@@ -6,7 +6,7 @@ const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const FriendlyErrorsWebpackPlugin = require("friendly-errors-webpack-plugin");
-
+const webpack = require("webpack");
 const TerserPlugin = require('terser-webpack-plugin');
 
 
@@ -28,7 +28,7 @@ const setMPA = () => {
       htmlWebpackPlugins.push(new HtmlWebpackPlugin({
         template: path.join(entryFile, `../${pageName}.html`),
         filename: `${pageName}.html`,
-        chunks: [`${pageName}`, "vendors"],
+        chunks: [`${pageName}`],
         inject: true,
         minify: {
           html5: true,
@@ -142,6 +142,9 @@ module.exports = {
     new CleanWebpackPlugin(),
     ...htmlWebpackPlugins,
     new FriendlyErrorsWebpackPlugin(),
+    new webpack.DllReferencePlugin({
+      manifest: require("./build/library/library.json"),
+    }),
   ],
   optimization: {
     minimizer: [
@@ -149,14 +152,5 @@ module.exports = {
         parallel: true,
       }),
     ],
-    splitChunks: {
-      cacheGroups: {
-        commons: {
-          test: /(react|react-dom)/,
-          name: "vendors",
-          chunks: "all",
-        },
-      },
-    },
   },
 };
